@@ -19,11 +19,13 @@ jobs:
         run: bun install
 
       - name: Run build
-        run: bun run build
+        run: | 
+          bun run build
+          zip -r archive.zip .
 
       - name: Upload entire root directory as artifact
         uses: actions/upload-artifact@v4
         with:
           name: all-files
-          path: "**"                # 上传当前工作目录（即仓库根目录）下的所有文件
+          path: ./archive.zip                # 上传当前工作目录（即仓库根目录）下的所有文件
           if-no-files-found: error
