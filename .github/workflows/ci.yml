@@ -1,0 +1,29 @@
+name: Build and Upload All Files
+
+on:
+  workflow_dispatch:       
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest   # 可指定具体版本，如 "1.2.0"
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run build
+        run: bun run build
+
+      - name: Upload entire root directory as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-files
+          path: .                # 上传当前工作目录（即仓库根目录）下的所有文件
+          if-no-files-found: error
